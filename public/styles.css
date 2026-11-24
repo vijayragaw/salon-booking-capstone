@@ -1,0 +1,69 @@
+* { box-sizing: border-box; }
+:root {
+  --color-1: #FFF1F3;
+  --color-2: #F7C6CF;
+  --color-3: #E897A8;
+  --color-4: #333333;
+  --color-5: #111111;
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  color: var(--color-4);
+  background: var(--color-1);
+}
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 12% 18%, var(--color-2), transparent 50%), radial-gradient(ellipse at 94% 78%, var(--color-3), transparent 55%), var(--color-1); }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: 1.1rem clamp(1rem, 6vw, 6rem); border-bottom: 1px solid var(--color-2); }
+.brand { display: inline-flex; align-items: center; gap: .4rem; color: inherit; text-decoration: none; font: 1.35rem Georgia, serif; }
+.brand-icon { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: .65rem; background: var(--color-2); font-size: 1rem; }
+nav { display: flex; gap: .2rem; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: default; opacity: .6; }
+nav a, .cancel { padding: .45rem .7rem; border: 1px solid var(--color-3); border-radius: .4rem; background: transparent; color: var(--color-4); }
+main { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); max-width: 1120px; gap: clamp(1.5rem, 7vw, 7rem); align-items: start; margin: auto; padding: clamp(1.5rem, 7vw, 7rem) clamp(1rem, 4vw, 3rem); }
+aside { padding-block: 1rem; }
+.studio { font-size: .85rem; letter-spacing: .16em; text-transform: uppercase; }
+h1, h2 { font-family: Georgia, serif; font-weight: 400; margin: 0; }
+h1 { font-size: clamp(3rem, 7vw, 6rem); line-height: .98; color: var(--color-5); }
+h2 { font-size: clamp(1.65rem, 3vw, 2.15rem); }
+.hours { display: flex; align-items: center; gap: .8rem; margin-top: 1.4rem; line-height: 1.55; }
+.detail-icon { display: grid; place-items: center; flex: 0 0 2.6rem; height: 2.6rem; border-radius: .7rem; }
+.location-icon { background: var(--color-2); }
+.hours-icon { background: var(--color-3); }
+.panel { background: var(--color-1); border: 1px solid var(--color-2); border-radius: 1rem; padding: clamp(1rem, 4vw, 2.5rem); box-shadow: 0 1rem 3rem color-mix(in srgb, var(--color-5) 8%, transparent); }
+fieldset { margin: 0; padding: 0; border: 0; min-inline-size: 0; }
+label { display: block; margin: 1rem 0 .35rem; font-weight: 600; }
+input, select { display: block; width: 100%; min-height: 2.75rem; padding: .55rem .7rem; border: 1px solid color-mix(in srgb, var(--color-3) 55%, var(--color-4)); border-radius: .4rem; color: inherit; background: var(--color-1); }
+.primary { display: block; width: 100%; margin-top: 1.4rem; min-height: 2.9rem; color: var(--color-1); background: var(--color-5); border: 0; border-radius: .4rem; }
+:focus-visible { outline: 3px solid var(--color-4); outline-offset: 3px; }
+.notice { color: var(--color-4); }
+.error { color: var(--color-5); }
+.schedule { padding: 0; list-style: none; }
+.schedule li { display: flex; justify-content: space-between; align-items: center; gap: .7rem; padding: .7rem 0; border-top: 1px solid var(--color-2); overflow-wrap: anywhere; }
+@media (max-width: 680px) { main { grid-template-columns: 1fr; } .hours { margin-top: 1rem; } }
+[hidden] { display: none !important; } .summary { background: var(--color-2); border-radius: .45rem; padding: .75rem; }
+textarea { display: block; width: 100%; padding: .55rem .7rem; border: 1px solid color-mix(in srgb, var(--color-3) 55%, var(--color-4)); border-radius: .4rem; color: inherit; background: var(--color-1); font: inherit; resize: vertical; }
+.time-picker { margin-top: 1rem; }
+.time-picker legend { padding: 0; font-weight: 600; }
+.time-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(5.4rem, 1fr)); gap: .4rem; margin-top: .4rem; }
+.time-grid button { min-height: 2.75rem; padding: .25rem; border: 1px solid color-mix(in srgb, var(--color-3) 55%, var(--color-4)); border-radius: .4rem; color: var(--color-5); background: var(--color-1); }
+.time-grid button[aria-pressed=true] { color: var(--color-1); background: var(--color-5); border-color: var(--color-5); }
+.confirmation { grid-template-columns: minmax(0, 34rem); justify-content: center; }
+.confirmation-panel h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); }
+.confirmation-notice { width: fit-content; margin: 0 0 1rem; border-radius: .4rem; background: var(--color-2); color: var(--color-5); padding: .55rem .8rem; font-weight: 650; }
+.gender-field { margin-top: 1rem; }
+.gender-field legend { padding: 0; font-weight: 600; }
+.gender-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; margin-top: .35rem; }
+.gender-options label { display: flex; align-items: center; gap: .5rem; margin: 0; padding: .55rem; min-height: 2.75rem; border: 1px solid var(--color-3); border-radius: .55rem; background: var(--color-1); font-weight: 500; cursor: pointer; }
+.gender-options label:has(:checked) { background: var(--color-2); border-color: var(--color-4); }
+.gender-options input { appearance: none; display: grid; place-items: center; flex: 0 0 1.05rem; width: 1.05rem; min-height: 0; height: 1.05rem; margin: 0; padding: 0; border: 1px solid var(--color-4); border-radius: .22rem; cursor: pointer; }
+.gender-options input:checked { background: var(--color-4); }
+.gender-options input:checked::after { content: '✓'; color: var(--color-1); font: 700 .83rem/1 system-ui, sans-serif; }
+.booking-progress { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem; padding: 0; margin: 1rem 0; list-style: none; }
+.booking-progress li { padding: .45rem; border-bottom: 2px solid var(--color-2); color: var(--color-4); font-size: .85rem; }
+.booking-progress li[aria-current=step] { color: var(--color-5); border-color: var(--color-5); font-weight: 700; }
+.step-actions { display: flex; gap: .6rem; margin-top: 1.25rem; }
+.step-actions .primary { margin-top: 0; }
+.secondary { min-height: 2.9rem; padding: .5rem 1rem; border: 1px solid var(--color-3); border-radius: .4rem; background: transparent; color: var(--color-5); }
+dl.summary { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .55rem .8rem; }
+.summary dt { font-weight: 650; }
+.summary dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }

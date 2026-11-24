@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Juniper Studio | Salon Booking</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/booking.js" type="module"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-icon" aria-hidden="true">🌿</span> Juniper Studio</a>
+    <nav id="main-nav" aria-label="Main navigation" hidden>
+      <a href="/">Book a visit</a>
+    </nav>
+  </header>
+  <main id="booking-home">
+    <aside>
+      <h1>Take a seat.</h1>
+      <p>Pick a service and book a thirty-minute visit.</p>
+      <div class="hours"><span class="detail-icon location-icon" aria-hidden="true">📍</span><div><strong>Juniper Studio · Indiranagar</strong><br>Bengaluru, Karnataka · Sample salon</div></div>
+      <div class="hours"><span class="detail-icon hours-icon" aria-hidden="true">🕒</span><div><strong>Studio hours</strong><br>10:00 AM – 6:00 PM IST</div></div>
+    </aside>
+    <section class="panel">
+      <div id="customer-panel">
+        <h2 id="booking-title" tabindex="-1">Book an appointment</h2>
+        <ol id="booking-progress" class="booking-progress" aria-label="Booking progress">
+          <li aria-current="step">1. Appointment</li>
+          <li>2. Your details</li>
+          <li>3. Preview</li>
+        </ol>
+        <form id="booking-form">
+          <fieldset id="booking-fields">
+            <fieldset id="appointment-step">
+            <label for="service"><span aria-hidden="true">✂️</span> Service</label>
+            <select id="service" required><option value="">Choose a service</option></select>
+            <label for="visit-date"><span aria-hidden="true">📅</span> Appointment date</label>
+            <input id="visit-date" type="date" required>
+            <fieldset class="time-picker">
+              <legend><span aria-hidden="true">⏰</span> Start time (IST)</legend>
+              <div id="time" class="time-grid"></div>
+            </fieldset>
+            <p id="availability" role="status"></p>
+            <button id="appointment-next" class="primary" type="button" disabled>Next</button>
+            </fieldset>
+            <fieldset id="details-step" hidden disabled>
+            <h3 tabindex="-1">Your details</h3>
+            <label for="customer-name">Your name</label>
+            <input id="customer-name" autocomplete="name" maxlength="80" required>
+            <fieldset class="gender-field">
+              <legend>Gender</legend>
+              <div class="gender-options">
+                <label><input type="radio" name="gender" value="Woman" required><span>Woman</span></label>
+                <label><input type="radio" name="gender" value="Man"><span>Man</span></label>
+                <label><input type="radio" name="gender" value="Non-binary"><span>Non-binary</span></label>
+                <label><input type="radio" name="gender" value="Prefer not to say"><span>Prefer not to say</span></label>
+              </div>
+            </fieldset>
+            <label for="phone"><span aria-hidden="true">📱</span> Mobile number</label>
+            <input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
+              pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" required>
+            <label for="email"><span aria-hidden="true">💌</span> Email (optional)</label>
+            <input id="email" type="email" autocomplete="email" maxlength="254">
+            <label for="notes"><span aria-hidden="true">📝</span> Notes for the stylist (optional)</label>
+            <textarea id="notes" rows="3" maxlength="500" placeholder="Anything you’d like the stylist to know?"></textarea>
+            <div class="step-actions">
+              <button id="details-back" class="secondary" type="button">Back</button>
+              <button id="details-next" class="primary" type="button">Next</button>
+            </div>
+            </fieldset>
+            <fieldset id="preview-step" hidden disabled>
+              <h3 tabindex="-1">Preview your booking</h3>
+              <dl id="booking-summary" class="summary"></dl>
+              <div class="step-actions">
+                <button id="preview-back" class="secondary" type="button">Back</button>
+                <button id="confirm-booking" class="primary">Confirm appointment</button>
+              </div>
+            </fieldset>
+          </fieldset>
+        </form>
+      </div>
+      <div id="staff-panel" hidden>
+        <h2>Daily schedule</h2>
+        <form id="staff-form">
+          <fieldset id="staff-fields">
+            <label for="schedule-date">Date</label>
+            <input id="schedule-date" type="date" required>
+            <label for="staff-key">Staff access key</label>
+            <input id="staff-key" type="password" required>
+            <button class="primary">View schedule</button>
+          </fieldset>
+        </form>
+        <ul class="schedule" id="schedule"></ul>
+      </div>
+      <p id="notice" class="notice" role="status"></p>
+      <p id="error" class="error" role="alert"></p>
+    </section>
+  </main>
+  <main id="confirmation-page" class="confirmation" hidden>
+    <section class="panel confirmation-panel" aria-labelledby="confirmation-title">
+      <p id="confirmation-notice" class="confirmation-notice" role="status"></p>
+      <h1 id="confirmation-title" tabindex="-1">Thank you! <span aria-hidden="true">🌸</span></h1>
+      <p id="confirmed-details"></p>
+      <p>Returning to the booking home in <span id="countdown">10</span> seconds.</p>
+      <button id="return-home" class="primary" type="button">Back to home</button>
+    </section>
+  </main>
+</body>
+</html>

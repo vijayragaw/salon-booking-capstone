@@ -1,0 +1,23 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: docker build -t salon-booking .
+      - name: Smoke test the container
+        run: |
+          docker run -d --name salon -p 127.0.0.1:3000:3000 salon-booking
+          curl --fail --retry 10 --retry-delay 1 --retry-connrefused http://127.0.0.1:3000/api/services

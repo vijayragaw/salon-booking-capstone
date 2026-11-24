@@ -1,0 +1,14 @@
+{
+  "name": "salon-booking-capstone",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node backend/local.mjs",
+    "dev": "node --watch backend/local.mjs",
+    "test": "node --test backend/*.test.mjs",
+    "check": "node --check backend/local.mjs && node --check backend/booking.mjs && node --check public/booking.js"
+  }
+}
