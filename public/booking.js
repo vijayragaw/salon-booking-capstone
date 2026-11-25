@@ -99,6 +99,9 @@ function renderPreview() {
 }
 
 function showStep(index) {
+  if (index !== bookingStep) {
+    bookingFields.dataset.direction = index > bookingStep ? 'forward' : 'backward';
+  }
   bookingStep = index;
   bookingSteps.forEach((step, position) => {
     step.hidden = step.disabled = position !== index;
