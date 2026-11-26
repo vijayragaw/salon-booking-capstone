@@ -1,5 +1,6 @@
-# Juniper Studio · Salon Booking Capstone
 
+# Juniper Studio · Salon Booking Capstone
+CI/CD webhook automation test.
 Juniper Studio is a salon booking demo for one fictional Bengaluru salon and one stylist. It uses Node.js, HTML, CSS, and browser JavaScript with zero npm dependencies. The capstone covers automated testing, Docker packaging, GitHub Actions CI, and a manually triggered deployment to AWS EC2.
 
 ## What the app does
