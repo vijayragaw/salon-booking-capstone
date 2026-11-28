@@ -1,0 +1,12 @@
+services:
+  salon-app:
+    image: vijayragaw/salon-booking-app:${IMAGE_TAG:-v1}
+    container_name: salon-app-compose
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
