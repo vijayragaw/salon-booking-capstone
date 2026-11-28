@@ -1,145 +1,202 @@
+# Salon Booking Capstone — DevOps CI/CD Project
 
-# Juniper Studio · Salon Booking Capstone
-CI/CD webhook automation testing.
-Juniper Studio is a salon booking demo for one fictional Bengaluru salon and one stylist. It uses Node.js, HTML, CSS, and browser JavaScript with zero npm dependencies. The capstone covers automated testing, Docker packaging, GitHub Actions CI, and a manually triggered deployment to AWS EC2.
+A salon booking web application deployed on AWS EC2 using Docker, Jenkins CI/CD, Docker Hub, Prometheus, Grafana, and Bash automation.
 
-## What the app does
+## Project Overview
 
-| Step | Customer flow |
-| --- | --- |
-| 1. Appointment | Pick a service, date, and available start time. Buttons show 15-minute increments in 12-hour IST. Past and unavailable times are hidden. |
-| 2. Your details | Enter a name, gender option, and 10-digit mobile number. Email and up to 500 characters of notes are optional. |
-| 3. Preview | Review the appointment and contact details. Go back to edit or confirm to book. |
+This project demonstrates a practical DevOps workflow by automating the build, containerization, image publishing, deployment, monitoring, and server maintenance of a Salon Booking application.
 
-After confirmation, the app displays a thank-you screen and returns to the booking home after 10 seconds. Staff use a separate, key-protected schedule to view and cancel appointments for a selected date. Cancellation reopens any affected start times that are still in the future.
-
-The studio is open **10:00 AM–6:00 PM IST**. Each visit lasts **30 minutes**, so 5:30 PM is the last start time. A 10:00 AM booking also blocks 10:15 AM, while 10:30 AM remains available if it has no conflict.
-
-| Service | Price |
-| --- | ---: |
-| Signature haircut | ₹499 |
-| Wash & blow-dry | ₹399 |
-| Beard trim | ₹249 |
-
-Prices are displayed for the demo. The app does not collect payments or send messages.
-
-## Run locally
-
-**Requirements:** Node.js 22 or newer and npm. Docker and AWS are optional for local development.
-
-```sh
-git clone https://github.com/vijayragaw/salon-booking-capstone.git
-cd salon-booking-capstone
-npm ci
-npm start
-```
-
-Open the [booking page](http://localhost:3000/) or the [staff schedule](http://localhost:3000/?view=staff). The local staff key is `local-demo-key`. For a first demo, select tomorrow's date and use fictional names and contact details.
-
-If port 3000 is already in use, run `$env:PORT = '3001'; npm start` in PowerShell or `PORT=3001 npm start` in Bash. Open the same pages on port 3001.
-
-| Command | Purpose |
-| --- | --- |
-| `npm start` | Serve the frontend and API at `127.0.0.1:3000` by default. |
-| `npm run dev` | Restart the server when its imported Node.js files change. Refresh the browser after frontend edits. |
-| `npm run check` | Check JavaScript syntax. |
-| `npm test` | Run the booking API tests with Node's built-in test runner. |
+The application source code is maintained on GitHub. Jenkins automates the CI/CD pipeline, Docker packages the application, Docker Hub stores the built images, and the application is deployed on an AWS EC2 instance using Docker Compose.
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    Browser["Customer or staff browser"] --> Server["Node.js HTTP server"]
-    Server --> UI["Static HTML, CSS, and JavaScript"]
-    Server --> API["Booking API"]
-    API --> Store["In-memory booking map"]
+```text
+Developer
+   |
+   v
+GitHub Repository
+   |
+   | Push / Webhook
+   v
+Jenkins CI/CD
+   |
+   | Checkout Source
+   | Build Docker Image
+   | Push Image
+   v
+Docker Hub
+   |
+   | Pull Image
+   v
+AWS EC2
+   |
+   | Docker Compose
+   v
+Salon Booking Application
+   |
+   +---- Prometheus
+   |       |
+   |       +---- Node Exporter
+   |
+   +---- Grafana Monitoring
 ```
 
-| Path | Purpose |
-| --- | --- |
-| [`public/index.html`](public/index.html) | Customer form, thank-you screen, and staff schedule. |
-| [`public/booking.js`](public/booking.js) | Navigation, slot rendering, preview, and API calls. |
-| [`public/styles.css`](public/styles.css) | Layout, responsive styles, and color palette. |
-| [`backend/local.mjs`](backend/local.mjs) | HTTP entry point that serves the pages and API. |
-| [`backend/booking.mjs`](backend/booking.mjs) | Services, input validation, availability, and in-memory storage. |
-| [`backend/booking.test.mjs`](backend/booking.test.mjs) | Tests for overlapping bookings, validation, staff access, and cancellation. |
-| [`Dockerfile`](Dockerfile) | Runs the Node app as the non-root `node` user. |
-| [CI workflow](.github/workflows/ci.yml) and [deploy workflow](.github/workflows/deploy.yml) | GitHub Actions verification and AWS deployment. |
+## Technology Stack
 
-**Storage:** Run a single app instance. Bookings live in that process's memory and reset when the process or container restarts, including after redeployment. The server checks for overlap and saves the booking in one synchronous operation, so simultaneous requests cannot reserve conflicting times on that instance.
+| Technology | Purpose |
+|---|---|
+| Git & GitHub | Source code management and version control |
+| AWS EC2 | Cloud hosting |
+| Ubuntu | Server operating system |
+| Jenkins | CI/CD automation |
+| Docker | Application containerization |
+| Docker Compose | Container deployment and management |
+| Docker Hub | Container image registry |
+| Prometheus | Metrics collection and monitoring |
+| Node Exporter | Linux server metrics |
+| Grafana | Monitoring dashboard and visualization |
+| Bash | Automation and maintenance scripts |
+| Cron | Scheduled jobs |
+| Logrotate | Log management and rotation |
 
-## API reference
+## Application
 
-Dates use `YYYY-MM-DD`. API times use 24-hour `HH:mm` in IST. The browser formats them as AM/PM.
+**Salon Booking — Juniper Studio**
 
-| Method | Endpoint | Access | Result |
-| --- | --- | --- | --- |
-| GET | `/api/services` | Public | Service IDs, names, and prices. |
-| GET | `/api/slots?date=YYYY-MM-DD` | Public | Start times and availability flags without customer details. |
-| POST | `/api/bookings` | Public | Creates a booking and returns its ID, date, and start time with HTTP `201`. |
-| GET | `/api/bookings?date=YYYY-MM-DD` | Staff key | Bookings and customer details for a selected date. |
-| DELETE | `/api/bookings/:id` | Staff key | Cancels a booking. Send its `date` and `start` in the JSON body. |
+The application provides a salon booking demo experience including:
 
-Send the staff key in the `X-Staff-Key` header for staff requests. The API returns `400` for invalid input, `401` for a missing or incorrect staff key, and `409` if a requested time has passed or conflicts with another appointment.
+- Service selection
+- Appointment date and time selection
+- Customer details
+- Appointment preview and confirmation
+- Staff appointment schedule
+- Appointment cancellation
+- Booking availability and conflict validation
 
-Example JSON body for `POST /api/bookings`. Replace the example date and time with a future available slot.
+## CI/CD Pipeline
 
-```json
-{
-  "date": "2030-06-15",
-  "start": "10:15",
-  "serviceId": "haircut",
-  "name": "Demo Customer",
-  "gender": "Prefer not to say",
-  "phone": "9000000000",
-  "email": "customer@example.com",
-  "notes": "Please keep the length."
-}
+Jenkins automates the deployment workflow.
+
+### Pipeline stages
+
+1. **Checkout GitHub** — retrieves the source code.
+2. **Inspect Source Code** — verifies the workspace and source revision.
+3. **Build Docker Image** — creates a Docker image for the application.
+4. **Push to Docker Hub** — publishes the versioned image.
+5. **Deploy** — updates the application on EC2 using Docker Compose.
+
+### CI/CD Flow
+
+```text
+GitHub Push
+     |
+     v
+GitHub Webhook
+     |
+     v
+Jenkins Pipeline
+     |
+     v
+Docker Image Build
+     |
+     v
+Docker Hub Push
+     |
+     v
+EC2 Docker Compose Pull
+     |
+     v
+Application Deployment
 ```
 
-## Run with Docker
+## Docker
 
-```sh
-docker build -t salon-booking .
-docker run --rm --name salon-booking -p 127.0.0.1:3000:3000 salon-booking
+The application is containerized using Docker.
+
+Docker Compose configuration includes:
+
+- Application container
+- Port mapping: `3000:3000`
+- Restart policy: `unless-stopped`
+- Container log size limit: 10 MB
+- Maximum log files: 3
+
+### Docker Compose
+
+```yaml
+services:
+  salon-app:
+    image: vijayragaw/salon-booking-app:${IMAGE_TAG:-v1}
+    container_name: salon-app-compose
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 ```
 
-In another terminal, check the API with `curl http://localhost:3000/api/services`. If the local Node server is already using port 3000, publish the container with `-p 127.0.0.1:3001:3000` and test port 3001 instead.
+### Docker Image Versions
 
-## GitHub Actions
+Images are published to Docker Hub:
 
-**CI** runs on pull requests and pushes to `main`. It installs from the lockfile, checks JavaScript syntax, runs tests, builds the Docker image, and starts a container to check `/api/services`.
+- `v1`
+- `v2`
+- `jenkins-build-number`
 
-**Deploy demo to AWS** is manually triggered from `main`. It repeats the application checks, assumes a GitHub OIDC role, uploads a commit-specific source archive to S3, and tells an EC2 instance to build and start the container through Systems Manager. The workflow checks the deployed API and reports the command result.
+Docker image repository:
 
-## Deploy privately to AWS EC2
+https://hub.docker.com/r/vijayragaw/salon-booking-app
 
-1. Create a private S3 artifact bucket and launch one Amazon Linux 2023 EC2 instance with outbound internet access. Keep inbound ports closed. Configure the instance as a [Systems Manager managed node](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-permissions.html). Its role also needs `s3:GetObject` for the bucket's `salon/*` prefix. Confirm that the AWS CLI and SSM Agent are available on the instance.
-2. In a Systems Manager shell, install Docker with `sudo dnf install -y docker` and start it with `sudo systemctl enable --now docker`. Create `/etc/salon-booking.env` with permissions `600` and set `STAFF_KEY` to a long random secret. Keep that file on the instance.
-3. Configure a GitHub environment named `aws` restricted to `main`. Create a [GitHub OIDC deployment role](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws) scoped to this repository's `aws` environment. Grant it access to upload to the artifact prefix, send `AWS-RunShellScript` commands to the selected instance, and read command status.
-4. Set these environment variables in GitHub and run **Actions → Deploy demo to AWS → Run workflow** on `main`.
+## AWS Deployment
 
-| GitHub environment variable | Value |
-| --- | --- |
-| `AWS_REGION` | Region containing the EC2 instance. |
-| `AWS_DEPLOY_ROLE_ARN` | ARN of the IAM role assumed by GitHub Actions. |
-| `ARTIFACT_BUCKET` | Private S3 bucket name, without `s3://`. |
-| `INSTANCE_ID` | EC2 instance ID, starting with `i-`. |
+The project is deployed on an AWS EC2 instance.
 
-With the AWS CLI and the [Session Manager plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-port-forwarding) installed locally, open a port-forwarding session using an AWS identity allowed to start it.
+The same EC2 instance hosts the capstone application and the DevOps tools to simplify the learning environment and reduce infrastructure cost.
 
-```sh
-aws ssm start-session --target i-REPLACE --document-name AWS-StartPortForwardingSession --parameters "portNumber=3000,localPortNumber=3000"
-```
+### Services and Ports
 
-Keep the session open and visit [localhost:3000](http://localhost:3000/). Set `localPortNumber=3001` if port 3000 is already occupied on your machine. The container is published on the EC2 instance's loopback address.
+| Service | Port |
+|---|---:|
+| Salon Booking Application | 3000 |
+| Grafana | 3001 |
+| Jenkins | 8080 |
+| Prometheus | 9090 |
+| Node Exporter | 9100 |
 
-EC2, EBS, and S3 usage can consume AWS credits. Review your account's billing dashboard before starting, and clean up the instance, unused volumes, and deployment artifacts when finished. The shared staff key and in-memory storage are intended for a private capstone demo.
+## Monitoring
 
-## Demo checklist
+### Prometheus
 
-1. Create a pull request with a deliberately failing test, show CI catching it, then fix the test and show the pipeline passing.
-2. Run the Docker container or deploy it to EC2 and open it through the SSM tunnel.
-3. Select the same appointment in two tabs. Confirm the first booking and submit the stale preview from the second tab to demonstrate conflict handling.
-4. Review the thank-you screen and its automatic return to the booking home.
-5. Open `/?view=staff`, cancel the appointment, and verify that the start time reappears for customers.
+Prometheus collects system and application infrastructure metrics.
+
+Monitoring targets:
+
+- Prometheus server
+- Node Exporter
+
+Prometheus configuration uses a 15-second global scrape interval, with Prometheus itself configured to scrape every 5 seconds.
+
+### Node Exporter
+
+Node Exporter provides Linux server metrics including:
+
+- CPU
+- Memory
+- Disk
+- Filesystem
+- Network
+- System load
+
+### Grafana
+
+Grafana is configured with Prometheus as its data source.
+
+Dashboard used:
+
+**Node Exporter Full — Dashboard ID 1860**
+
+Monitoring panels include CPU usage, memory usage, swap, filesystem, disk I/O, network traffic, and server uptime.
+
