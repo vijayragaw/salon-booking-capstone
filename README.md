@@ -1,4 +1,4 @@
-# Salon Booking Capstone — DevOps CI/CD Project
+# Salon Booking Capstone — DevOps CI/CD Project.
 
 A salon booking web application deployed on AWS EC2 using Docker, Jenkins CI/CD, Docker Hub, Prometheus, Grafana, and Bash automation.
 
